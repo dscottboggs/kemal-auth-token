@@ -3,14 +3,14 @@ require "./spec_helper"
 # Let's define fake User object
 # Normally you want to have access to DB
 
-SIGNED_EMAIL = "signed@email.org"
+SIGNED_EMAIL    = "signed@email.org"
 SIGNED_PASSWORD = "hard_password"
-SIGNED_ID = 3
+SIGNED_ID       = 3
 
 struct User
-  @id : (Nil | Int32) = nil # 1
-  @name : (Nil | Int32) = nil # "Jon Boe"
-  @email : (Nil | String) = nil # "email@email.org"
+  @id : (Nil | Int32) = nil        # 1
+  @name : (Nil | Int32) = nil      # "Jon Boe"
+  @email : (Nil | String) = nil    # "email@email.org"
   @password : (Nil | String) = nil # "password"
 
   property :id, :name, :email, :password
@@ -47,10 +47,8 @@ struct User
   end
 end
 
-
 describe Kemal::Auth do
   it "works" do
-
     # auth_token_mw = Kemal::AuthToken.new(sign_in: sign_in_proc)
     auth_token_mw = Kemal::AuthToken.new
     auth_token_mw.sign_in do |email, password|
@@ -78,7 +76,7 @@ describe Kemal::Auth do
 
     # sign in
     http = HTTP::Client.new("localhost", Kemal.config.port)
-    result = http.post "/sign_in", form: {"email" => SIGNED_EMAIL, "password" => SIGNED_PASSWORD }
+    result = http.post "/sign_in", form: {"email" => SIGNED_EMAIL, "password" => SIGNED_PASSWORD}
     json = JSON.parse(result.body)
     token = json["token"].to_s
 
@@ -97,6 +95,5 @@ describe Kemal::Auth do
     json = JSON.parse(result.body)
     json["id"].should eq SIGNED_ID
     json["email"].should eq SIGNED_EMAIL
-
   end
 end
